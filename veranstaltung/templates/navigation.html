@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body class="body">
+<div class="nav-bg-fix bg-dark">
+    <div class="w-layout-blockcontainer w-container bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-center d-flex">
+            <a href="/"> <img class="navbar-brand-link" src="{% static 'deezVenues.png' %}"> </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <div class="collapse navbar-collapse align-items-center" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/"> Home </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/events"> Events </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/eventLocations"> Venues </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/categories"> Categories </a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'ticket-view' user.id %}"> My Orders (
+                                {% if user.userprofile %}
+                                    {{ user.userprofile.count_ticket }}
+                                {% else %}
+                                    0
+                                {% endif %} ) </a>
+
+                        </li>
+                    {% endif %}
+                </ul>
+
+                <div class="mx-5 nav-item">
+                    {% if user.is_authenticated %}
+                        <p class="m-0"> Hello {{ user.userprofile.nickname }} </p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div>
+                <a href="{% url 'cart-summary' %}"> Cart(
+                    {% if user.is_authenticated %}
+                        {% if user.userprofile %}
+                            {{ user.userprofile.count_waren_korb_items }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    {% else %}
+                        {{ request.session.cart|default:"0" }}
+                    {% endif %}
+                    ) </a>
+            </div>
+
+            <div class="mx-5">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        {% if user.is_authenticated %}
+                            <a class="nav-link btn btn-primary text-decoration-none ml-3" href="{% url 'logout' %}"> Log Out </a>
+                        {% else %}
+                            <a class="btn btn-primary text-decoration-none ml-3" href="{% url 'login' %}"> Log In </a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+</body>
+</html>
+

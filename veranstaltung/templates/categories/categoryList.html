@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+        {% load bootstrap5 %}
+        {% bootstrap_css %}
+    <head>
+    </head>
+    <body class="body">
+
+        {% if showNavbar or current_url == "/categories" %}
+            <div>
+                {% include "navigation.html" %}
+            </div>
+         {% endif %}
+
+        <div class="w-layout-blockcontainer w-container">
+            <div class="w-layout-hflex">
+            <div class="heading-block">
+                    <h2 class="heading-2">
+                        Categories
+                    </h2>
+        </div>
+        <ul class="category-list">
+            {% for category in category_page %}
+                <li>
+                {% if user.is_authenticated %}
+                            {% if user.is_superuser %}
+                                 <a class="genre-button w-inline-block" href="{% url 'category-details' category.id %}">{{ category.title }}</a>
+{#                                <div><b>Description :</b> {{ category.description }}</div>#}
+                            {% elif user.is_staff  %}
+                                 <a class="genre-button w-inline-block" href="{% url 'category-details' category.id %}">{{ category.title }}</a>
+
+                            {% else %}
+                                <a class="genre-button w-inline-block" href="{% url 'event-in-category' category.id %}">{{ category.title }}</a>
+
+                            {% endif %}
+                {% else %}
+                    <a class="genre-button w-inline-block" href="{% url 'event-in-category' category.id %}">{{ category.title }}</a>
+
+                {% endif %}
+
+                </li>
+            {% endfor %}
+        </ul>
+            </div>
+        </div>
+            {% block pagination %}
+                    <div class="pagination">
+                        <span class="page-links">
+                            {% if category_page.has_previous %}
+                                <a href="{{ request.path }}?category_page={{ category_page.previous_page_number }}">previous</a>
+                            {% endif %}
+                                        <span class="page-current">
+                                         Page {{ category_page.number }} of {{ category_page.paginator.num_pages }}.
+                                        </span>
+                            {% if category_page.has_next %}
+                                <a href="{{ request.path }}?category_page={{ category_page.next_page_number }}">next</a>
+                            {% endif %}
+                        </span>
+                    </div>
+            {% endblock %}
+ </body>
+</html>

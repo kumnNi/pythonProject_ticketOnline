@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+<html lang="en">
+    <head>
+      <title> VeranstaltungTicketing </title>
+    </head>
+    <body>
+        <div>
+            {% include "navigation.html" %}
+        </div>
+
+    <h1 class="d-flex justify-content-center">
+            {{ title }}
+        </h1>
+<ul class="list-group">
+
+    {% for event in eventInLocation %}
+        <li class="list-group-item" >
+                <a href="{% url 'event-details' event.id %}">
+                    {{ event.name }}</a>  Location: {{ event.locationID }}
+
+        </li>
+    {% endfor %}
+</ul>
+
+
+{% block pagination %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if eventInLocation.has_previous %}
+                    <a href="{{ request.path }}?eventInLocation={{ eventInLocation.previous_page_number }}">previous</a>
+                {% endif %}
+                            <span class="page-current">
+                             Page {{ eventInLocation.number }} of {{ eventInLocation.paginator.num_pages }}.
+                            </span>
+                {% if eventInLocation.has_next %}
+                    <a href="{{ request.path }}?eventInLocation={{ eventInLocation.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+{% endblock %}
+
+ </body>
+
+</html>
+ </body>
+</html>

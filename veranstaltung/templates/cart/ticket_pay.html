@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    <link rel="stylesheet" href="{% static "styles.css" %}">
+</head>
+<body >
+
+<div>
+    {% include "navigation.html" %}
+</div>
+
+<div class="payment-card">
+    <h1>Payment Confirmation</h1>
+
+    <p>Thank you for purchasing a ticket!</p>
+    <hr>
+<div class="details-section">
+    <p>Details of your ticket:</p>
+    {% for ticket in tickets %}
+        <hr>
+    <ul>
+        <li><strong>Name :</strong> {{ ticket.userID }}</li>
+        <li><strong>Event :</strong> {{ ticket.eventID }}</li>
+        <li><strong>Location :</strong> {{ ticket.eventLocationID }}</li>
+        <li><strong>StandOrt :</strong>{{ ticket.eventLocationID.standort }}</li>
+        <li><strong>Quantity :</strong> {{ ticket.quantity }}</li>
+        <li><strong>Total Price:</strong> {{ ticket.price }}</li>
+    </ul>
+    {% endfor %}
+
+    <p><a href="{% url 'homepage' %}">Go back to home</a></p>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static "styles.css" %}">
+</head>
+<body class="d-flex align-items-center justify-content-center vh-100">
+    <form method="post" class="login-card">
+        {% csrf_token %}
+        <img src="{% static 'deezVenues.png' %}" alt="deezVenues">
+        <h1 class="text-center mb-4">Login</h1>
+        <div class="mb-3 form-group">
+            <input type="text" class="form-control" name="username" placeholder="Email">
+        </div>
+        <div class="mb-3 form-group">
+            <input type="password" class="form-control" name="password" placeholder="Password">
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-success btn-block" type="submit">Login</button>
+        </div>
+        <div class="mb-3">
+            <a href="{% url 'register' %}" class="btn btn-primary btn-block">Sign Up</a>
+        </div>
+    </form>
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+
+<div>
+    {% include "navigation.html" %}
+</div>
+<div class="w-layout-blockcontainer w-container bg-dark">
+<form method="post">{% csrf_token %}
+<h2>Are you sure you want to delete "{{ Warenkorb.item }}"?</h2>
+{{ form }}
+<input class="btn btn-danger" type="submit" value="Confirm" >
+</form>
+</div>

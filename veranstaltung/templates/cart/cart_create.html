@@ -1,0 +1,7 @@
+<div class="w-layout-blockcontainer w-container bg-dark">
+<form method ='post' action="{% url 'cart-create' event_id %}">
+            {% csrf_token %}
+    {{ form.as_p }}
+            <input type="submit" value="In den Warenkorb legen">
+</form>
+</div>

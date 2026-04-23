@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html>
+{% load static %}
+        {% load bootstrap5 %}
+        {% bootstrap_css %}
+    <head>
+
+    </head>
+    <body class="body">
+
+            {% load static %}
+            {% load bootstrap5 %}
+            {% bootstrap_css %}
+
+            {% if showNavbar or current_url == "/events"%}
+                <div>
+                    {% include "navigation.html" %}
+                </div>
+            {% endif %}
+            <div class="w-layout-blockcontainer w-container">
+            <div class="w-layout-hflex">
+            <div class="heading-block">
+                    <h2 class="heading-2">
+                        Available Events
+                    </h2>
+            </div>
+            <ul class="cardlist">
+                {% for event in event_page %}
+                    <li class="card-list-item" >
+                        {% if user.is_authenticated %}
+                            {% if user.is_superuser and user.is_staff %}
+                                {# superuser can see all events #}
+                                <a class="card-link w-inline-block" href="{% url 'event-details' event.id %}">
+                                     <img src="{{ event.img_source }}" loading="lazy" width="150" height="" alt="" sizes="(max-width: 479px) 83vw, 248px" class="card-image">
+                                    <div class="card-info">
+                                    <h3>{{ event.name }}</h3>
+                                    <p>Venue: {{ event.locationID }}<br/>
+                                    Date/Time: {{ event.datum|date:"D, M j Y" }} at {{ event.datum|time:"g:i A" }}<br/>
+                                    Preis: {{ event.price }} EUR</p>
+                                    </div>
+                                </a>
+                            {% elif user.is_staff %}
+                                        {# is_staff can see his owns events #}
+                                {% if user.userprofile == event.userID %}
+                                 <a class="card-link w-inline-block" href="{% url 'event-details' event.id %}">
+                                     <img src="{{ event.img_source }}" loading="lazy" width="150" height="" alt="" sizes="(max-width: 479px) 83vw, 248px" class="card-image">
+                                    <div class="card-info">
+                                    <h3>{{ event.name }}</h3>
+                                    <p>Venue: {{ event.locationID }}<br/>
+                                    Date/Time: {{ event.datum|date:"D, M j Y" }} at {{ event.datum|time:"g:i A" }}<br/>
+                                    Preis: {{ event.price }} EUR</p>
+                                    </div>
+                                </a>
+                                {% endif %}
+                            {% else %}
+                                <a class="card-link w-inline-block" href="{% url 'event-details' event.id %}">
+                                     <img src="{{ event.img_source }}" loading="lazy" width="150" height="" alt="" sizes="(max-width: 479px) 83vw, 248px" class="card-image">
+                                    <div class="card-info">
+                                    <h3>{{ event.name }}</h3>
+                                    <p>Venue: {{ event.locationID }}<br/>
+                                    Date/Time: {{ event.datum|date:"D, M j Y" }} at {{ event.datum|time:"g:i A" }}<br/>
+                                    Preis: {{ event.price }} EUR</p>
+                                    </div>
+                                </a>
+                            {% endif %}
+                        {% else %}
+                                    {# Guest can see  events #}
+                            <a class="card-link w-inline-block" href="{% url 'event-details' event.id %}">
+                                     <img src="{{ event.img_source }}" loading="lazy" width="150" height="" alt="" sizes="(max-width: 479px) 83vw, 248px" class="card-image">
+                                    <div class="card-info">
+                                    <h3>{{ event.name }}</h3>
+                                    <p>Venue: {{ event.locationID }}<br/>
+                                    Date/Time: {{ event.datum|date:"D, M j Y" }} at {{ event.datum|time:"g:i A" }}<br/>
+                                    Preis: {{ event.price }} EUR</p>
+                                    </div>
+                                </a>
+                    {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+            </div>
+            </div>
+
+            {% block pagination %}
+                    <div class="pagination">
+                        <span class="page-links">
+                            {% if event_page.has_previous %}
+                                <a href="{{ request.path }}?event_page={{ event_page.previous_page_number }}">previous</a>
+                            {% endif %}
+                                        <span class="page-current">
+                                         Page {{ event_page.number }} of {{ event_page.paginator.num_pages }}.
+                                        </span>
+                            {% if event_page.has_next %}
+                                <a href="{{ request.path }}?event_page={{ event_page.next_page_number }}">next</a>
+                            {% endif %}
+                        </span>
+                    </div>
+            {% endblock %}
+ </body>
+
+</html>

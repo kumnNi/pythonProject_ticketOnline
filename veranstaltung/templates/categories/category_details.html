@@ -1,0 +1,37 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+
+    <link rel="stylesheet" href="{% static "styles.css" %}">
+</head>
+<body>
+
+
+    <div class="navigation">
+        {% include "navigation.html" %}
+    </div>
+<div class="content-container">
+    <div class="form-card">
+        {% block categoryDetail %}
+            <h1>Category Details:</h1>
+            <hr>
+            <p><strong>Category Title:</strong> {{ category.title }}</p>
+            <p><strong>Description:</strong> {{ category.description }}</p>
+
+            {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                    <a class="btn btn-primary" href="{% url 'category-update' category.id %}">Update</a>
+                    <a class="btn btn-danger" href="{% url 'category-delete' category.id %}">Delete</a>
+                {% endif %}
+            {% endif %}
+        {% endblock %}
+    </div>
+</div>
+
+</body>
+</html>

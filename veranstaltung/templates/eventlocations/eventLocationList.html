@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+<head>
+
+</head>
+<body class="body">
+
+{% if showNavbar or current_url == "/eventLocations" %}
+    <div>
+        {% include "navigation.html" %}
+    </div>
+{% endif %}
+
+<div class="w-layout-blockcontainer w-container">
+    <div class="w-layout-hflex">
+        <div class="heading-block">
+            <h2 class="heading-2">
+                Venues
+            </h2>
+        </div>
+        <ul class="cardlist">
+            {% for eventLocations in eventLocation_page %}
+                <li class="venue-list-item">
+                    {% if user.is_authenticated %}
+                        {% if user.is_superuser  %}
+                            <a href="{% url 'eventLocation-details' eventLocations.id %}">
+                                <h3>{{ eventLocations.location }}</h3>
+                                <div>
+                                    <b> Standort </b>: {{ eventLocations.standort }}
+                                </div>
+                                <div>
+                                    <b> Details </b>: {{ eventLocations.detail }}
+                                </div>
+                                <div>
+                                    <b> Sitzplätze </b>: {{ eventLocations.seatingCapacity }}
+                                </div>
+                            </a>
+                        {% elif user.is_staff %}
+                            {% if user.userprofile == eventLocations.userID %}
+
+                                <a href="{% url 'eventLocation-details' eventLocations.id %}">
+                                    {{ eventLocations.location }} </a>  <b> Standort </b>: {{ eventLocations.standort }}
+                            {% endif %}
+                        {% else %}
+                            <a href="{% url 'event-in-location' eventLocations.id %}">
+                                {{ eventLocations.location }} </a>
+                            <div>
+                                <b> Standort </b>: {{ eventLocations.standort }}
+                            </div>
+                            <div>
+                                <b> Sitzplätze </b>: {{ eventLocations.seatingCapacity }}
+                            </div>
+                        {% endif %}
+
+                    {% else %}
+                        <a href="{% url 'event-in-location' eventLocations.id %}">
+                            {{ eventLocations.location }} </a>
+                        <div>
+                            <b> Standort </b>: {{ eventLocations.standort }}
+                        </div>
+                        <div>
+                            <b> Sitzplätze </b>: {{ eventLocations.seatingCapacity }}
+                        </div>
+
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+        {% block pagination %}
+            <div class="pagination">
+                    <span class="page-links">
+                        {% if eventLocation_page.has_previous %}
+                            <a href="{{ request.path }}?eventLocation_page={{ eventLocation_page.previous_page_number }}">previous</a>
+                        {% endif %}
+                        <span class="page-current">
+                                     Page {{ eventLocation_page.number }} of {{ eventLocation_page.paginator.num_pages }}.
+                                    </span>
+                        {% if eventLocation_page.has_next %}
+                            <a href="{{ request.path }}?eventLocation_page={{ eventLocation_page.next_page_number }}">next</a>
+                        {% endif %}
+                    </span>
+            </div>
+        {% endblock %}
+</div>
+</body>
+
+</html>
+
+
+

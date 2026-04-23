@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+<html lang="en">
+<link rel="stylesheet" href="{% static "styles.css" %}">
+    <head>
+      <title> VeranstaltungTicketing </title>
+    </head>
+    <body class="body">
+        
+    <div>
+        {% include "navigation.html" %}
+    </div>
+ {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert"></div>
+                {{ message }}
+            {% endfor %}
+        {% endif %}
+    <div class="w-layout-blockcontainer w-container">
+    <div class="event-list">
+      {% include "events/eventList.html" with showNavbar=False %}
+    </div>
+    {% if user.is_authenticated %}
+        {% if user.is_staff %}
+            <div class="createEvent">
+                {% block createEvent %}{% endblock %}
+            </div>
+            <div class="create-event">
+
+                <a href="/events/create/" class="btn btn-primary"> Create Event </a>
+
+            </div>
+             <div class="event-category-list">
+
+            {% include "categories/categoryList.html" with showNavbar=False %}
+            </div>
+
+
+            <div class="create-category">
+
+                <a href="/categories/create/" class="btn btn-primary"> Createj Categories </a>
+
+            </div>
+
+            <div class="event-location-list">
+              {% include "eventlocations/eventLocationList.html" with showNavbar=False %}
+            </div>
+
+            <div class="create-event-location">
+
+                <a href="/eventLocations/create/" class="btn btn-primary"> Create Venue </a>
+
+            </div>
+
+            {% endif %}
+    {% endif %}
+    </div>
+    </body>
+</html>

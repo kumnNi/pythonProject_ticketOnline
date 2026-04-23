@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load bootstrap5 %}
+        {% bootstrap_css %}
+    </head>
+    <body>
+
+{% if showNavbar or current_url == "/events"%}
+    <div>
+        {% include "navigation.html" %}
+    </div>
+{% endif %}
+
+        <h1 class="d-flex justify-content-center">
+            {{ title }}
+        </h1>
+<ul class="list-group">
+    {% for event in my_events_page %}
+        <li class="list-group-item" >
+            <a href="{% url 'event-details' event.id %}">
+                {{ event.name }}
+            </a>
+         <a href="{% url 'event-details' event.id %}">
+                <button>Bearbeiten</button>
+                </a>
+        </li>
+    {% endfor %}
+</ul>
+
+
+{% block pagination %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if my_events_page.has_previous %}
+                    <a href="{{ request.path }}?my_events_page={{ my_events_page.previous_page_number }}">previous</a>
+                {% endif %}
+                            <span class="page-current">
+                             Page {{ my_events_page.number }} of {{ my_events_page.paginator.num_pages }}.
+                            </span>
+                {% if my_events_page.has_next %}
+                    <a href="{{ request.path }}?my_events_page={{ my_events_page.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+{% endblock %}
+
+ </body>
+
+</html>

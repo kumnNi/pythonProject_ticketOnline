@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load bootstrap5 %}
+        {% bootstrap_css %}
+    </head>
+    <body>
+
+        {% if showNavbar or current_url == "/ticket" %}
+            <div>
+                {% include "navigation.html" %}
+            </div>
+         {% endif %}
+
+{% if ticket_page %}
+        <h1 class="d-flex justify-content-center"> {{ title }} </h1>
+
+        <ul class="list-group">
+            {% for ticket in ticket_page %}
+                <li class="list-group-item" >
+                <a href="{% url 'ticket-details' ticket.id %}">{{ ticket.eventID }}</a>
+                    <div>
+                    <b>Location: </b> {{ ticket.eventLocationID }}
+                    </div>
+                    <div>
+                    <b>Quantity: </b> {{ ticket.quantity }}
+                    </div>
+                    <div>
+                    <b>Preis: </b> {{ ticket.price }}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+
+            {% block pagination %}
+                    <div class="pagination">
+                        <span class="page-links">
+                            {% if ticket_page.has_previous %}
+                                <a href="{{ request.path }}?ticket_page={{ ticket_page.previous_page_number }}">previous</a>
+                            {% endif %}
+                                        <span class="page-current">
+                                         Page {{ ticket_page.number }} of {{ ticket_page.paginator.num_pages }}.
+                                        </span>
+                            {% if ticket_page.has_next %}
+                                <a href="{{ request.path }}?ticket_page={{ ticket_page.next_page_number }}">next</a>
+                            {% endif %}
+                        </span>
+                    </div>
+            {% endblock %}
+    {% else %}
+     <h1 class="d-flex justify-content-center"> {{ title }} </h1>
+    <p> No Ticket Purchases</p>
+    {% endif %}
+ </body>
+</html>

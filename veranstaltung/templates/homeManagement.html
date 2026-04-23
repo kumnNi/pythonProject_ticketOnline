@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+<html lang="en">
+    <head>
+      <title> VeranstaltungTicketing </title>
+    </head>
+    <body>
+
+    <div>
+        {% include "navigation.html" %}
+    </div>
+
+    <div class="event-list">
+      <h1> Events </h1>
+      {% include "events/eventList.html" with showNavbar=False %}
+    </div>
+
+    <div class="event-location-list">
+      <h1> Venues </h1>
+      {% include "eventlocations/eventLocationList.html" with showNavbar=False %}
+    </div>
+
+
+    </body>
+</html>
+
+

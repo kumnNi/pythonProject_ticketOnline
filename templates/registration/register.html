@@ -1,0 +1,77 @@
+{#<!DOCTYPE html>#}
+{#{% load static %}#}
+{#{% load bootstrap5 %}#}
+{#{% bootstrap_css %}#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Registration</title>#}
+{#</head>#}
+{#<body>#}
+{#<h1 class="d-flex justify-content-center">Registration</h1>#}
+{#<form method="post">#}
+{#    {% csrf_token %}#}
+{#    {{ user_form.as_p }}#}
+{#    {{ profile_formset.as_p }}#}
+{#    <div class="justify-content-center d-flex mt-5 registration-card">#}
+{#        <div class="w-50">#}
+{#           <div class="mb-3 form-group">#}
+{#               <input type="email" class="form-control" name="username" placeholder="Email" required>#}
+{#            </div>#}
+{##}
+{#            <div class="mb-3 form-group">#}
+{#                <input type="text" class="form-control" name="nickname" placeholder="Nickname" required>#}
+{#            </div>#}
+{#            <div class="mb-3 form-group">#}
+{#                <input type="password" class="form-control" name="password1" placeholder="Password" required>#}
+{#            </div>#}
+{#            <div class="mb-3 form-group">#}
+{#                <input type="password" class="form-control" name="password2" placeholder="Confirm Password" required>#}
+{#            </div>#}
+{##}
+{#            Option for Staff or Groups#}
+{#            <div class="mb-3 form-group">#}
+{#                <label for="is_staff">Are you staff?</label>#}
+{#                <input type="checkbox" class="form-check-input" name="is_staff" id="is_staff">#}
+{#            </div>#}
+{#            <div class="mb-3 form-group">#}
+{#                <input type="date" class="form-control" name="birthday" placeholder="Birthday" required>#}
+{#            </div>#}
+{#            <div class="mt-3 mx-3">#}
+{#                <button class="btn btn-primary" type="submit">Register</button>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <button class="btn btn-primary" type="submit">Register</button>#}
+{#</form>#}
+{#</body>#}
+{#</html>#}
+
+<!DOCTYPE html>
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" href="{% static "styles.css" %}">
+</head>
+<body class="d-flex align-items-center justify-content-center vh-100">
+    <form method="post" class="login-card">
+        {% csrf_token %}
+        <img src="{% static 'deezVenues.png' %}" alt="deezVenues">
+        <h1 class="text-center mb-4">Registration</h1>
+        <div class="mb-3 center-form">
+            {{ user_form.as_p|safe }}
+        </div>
+        <div class="mb-3 center-form">
+            {{ profile_formset.as_p|safe }}
+        </div>
+
+        <div class="mb-3 center-buttons">
+            <button class="btn btn-primary btn-block" type="submit">Register</button>
+        </div>
+    </form>
+</body>
+</html>

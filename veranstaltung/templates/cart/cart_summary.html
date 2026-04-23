@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load bootstrap5 %}
+
+        {% bootstrap_css %}
+    </head>
+    <body>
+
+            <div>
+                {% include "navigation.html" %}
+            </div>
+{% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert"></div>
+                {{ message }}
+            {% endfor %}
+        {% endif %}
+{% block cartSummary %}
+{% if event_items %}
+     <form method="post" action="{% url 'ticket-pay'  %}">
+         {% csrf_token %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Event Titel</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total Price</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in event_items %}
+                    <tr>
+                        <td>{{ item.eventID }}</td>
+                        <td><input type="number" name="quantity" class="quantity-input" value="{{ item.quantity }}"></td>
+                        <span class="new-number-message" style="color: green;"></span>
+                        <td class="price">{{ item.eventID.price }}</td>
+                        <td class="total-price">{{ item.total_price }}</td>
+                        <td>
+                           <a href="{% url 'cart-delete' item.id %}">Remove Item</a>
+                                    <input type="hidden" name="eventLocationID" value="{{ item.eventID.locationID_id }}">
+                                    <input type="hidden" name="eventID" value="{{ item.eventID_id }}">
+                                    <input type="hidden" name="price" value="{{ item.eventID.price }}">
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>Total:</td>
+                    <td id="total-price">{{ total_price |floatformat:2 }}</td>
+                    {% if user.is_authenticated %}
+{#                    <button type="submit">Pay for Ticket</button>#}
+                    <td colspan="3"> <button type="submit">Pay for Ticket</button></td>
+                {% else %}
+                   <td colspan="3"> <button type="button" onclick="location.href='{% url 'login' %}?next={% url 'cart-summary' %}'">Login to Pay</button></td>
+                {% endif %}
+                </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                 <td></td>
+                <td></td>
+                <td><a href="{% url 'homepage' %}">  Continue to shopping </a></td>
+            </tr>
+            </tfoot>
+
+        </table>
+
+    </form>
+
+    {% else %}
+        <p>Your shopping cart is empty.</p>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Show a message for a new number
+        $('.quantity-input').on('input', function () {
+            var quantity = parseInt($(this).val());
+            $('.new-number-message').text(quantity ? 'New number input!' : '');
+        });
+    });
+</script>
+    {% endif %}
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+
+    <link rel="stylesheet" href="{% static "styles.css" %}">
+</head>
+<body>
+
+    <div class="navigation">
+        {% include "navigation.html" %}
+    </div>
+<div class="content-container">
+    <div class="form-card">
+        <h1 class="d-flex justify-content-center"> Event Location Details </h1>
+        <hr>
+        <p><strong>Event Location:</strong> {{ eventLocation.location }} </p>
+        <p><strong>Standort:</strong> {{ eventLocation.standort }} </p>
+        <p><strong>Sitzplätze:</strong> {{ eventLocation.seatingCapacity }} </p>
+        <p><strong>Detail:</strong> {{ eventLocation.detail }} </p>
+
+        {% if user.is_authenticated %}
+            {% if user.is_staff %}
+                <a class="btn btn-primary" href="{% url 'eventLocation-update' eventLocation.id %}">Update</a>
+                <a class="btn btn-danger" href="{% url 'eventLocation-delete' eventLocation.id %}">Delete</a>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>
+

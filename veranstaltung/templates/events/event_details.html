@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+<html lang="en">
+    <head>
+      <title> VeranstaltungTicketing </title>
+    </head>
+    <body class="body">
+
+        <div>
+            {% include "navigation.html" %}
+        </div>
+
+            {% if event.video_source %}
+            <div class="black-video-background">
+            <div class="d-flex justify-content-center">
+                <iframe width="960" height="540" src="{{ event.video_source }}" allow="autoplay; encrypted-media" 
+                allowfullscreen ></iframe>
+            </div>
+            </div>
+            {%  endif %}
+        <div class="w-layout-blockcontainer w-container">
+        <div class="w-layout-hflex card-dsign">
+        <div>
+{#            <img src="{{ event.img_source }}" alt="Event Image">#}
+            <img class="event-details-image"  src="{{ event.img_source }}" alt="">
+        </div>
+        <div class="event-details-info">
+            <h1>{{ event.name }}</h1>
+            <p><strong>Category:</strong> {{ event.categoryID }}</p>
+            <p><strong>Organizer:</strong> {{ event.artist }}</p>
+            <p><strong>Date:</strong> {{ event.datum }}</p>
+            <p><strong>Ort:</strong> {{ event.locationID }}</p>
+            <p><strong>Location:</strong> {{ event.locationID.standort}}</p>
+            <p><strong>Price:</strong> {{ event.price }}</p>
+
+            {% if event.ticketAvailability %}
+                <p><strong>SeatingCapacity:</strong> {{ event.locationID.seatingCapacity }}</p>
+            <a href="{% url 'cart-create' event_id=event.id %}">Add to Cart</a>
+                {% else %}
+                <p><strong>SeatingCapacity:</strong> 0 </p>
+                <p><strong> Keine Ticket zu Verfügung </strong></p>
+            {% endif %}
+            {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                    <a  href="{% url 'event-update' event.id %}"><button class="btn btn-primary">Update</button></a>
+                     <a  href="{% url 'event-delete' event.id %}"><button class="btn btn-danger">Delete</button></a>
+                {% endif %}
+            {% endif %}
+        </div>
+        </div>
+        </div>
+ </body>
+</html>

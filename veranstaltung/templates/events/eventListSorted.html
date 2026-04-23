@@ -1,0 +1,14 @@
+
+<div>
+    {% include "navigation.html" %}
+</div>
+
+
+<ul class="list-group-sorted">
+    {% for event in event_List_sorted %}
+        <li class="list-group-item" >
+        <a href="{% url 'event-details' event.id %}">
+        {{ event.name }}</a>
+        </li>
+    {% endfor %}
+</ul>

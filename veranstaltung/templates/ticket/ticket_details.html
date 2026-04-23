@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    <link rel="stylesheet" href="{% static "styles.css" %}">
+</head>
+<body>
+
+    <div class="navigation">
+        {% include "navigation.html" %}
+    </div>
+    <div class="content-container">
+    <div class="form-card">
+        {% block ticketDetail %}
+            <h1>Ticket Details:</h1>
+            <hr>
+            <ul>
+                <li><strong>Name :</strong> {{ ticket.userID.nickname }}</li>
+                <li><strong>Event :</strong> {{ ticket.eventID }}</li>
+                <li><strong>Datum :</strong> {{ ticket.eventID.datum }}</li>
+                <li><strong>Location :</strong> {{ ticket.eventLocationID }} </li>
+                <li><strong>StandOrt: </strong> {{ ticket.eventLocationID.standort }}</li>
+                <li><strong>Quantity :</strong> {{ ticket.quantity }}</li>
+                <li><strong>Total Price:</strong> {{ ticket.price }}</li>
+            </ul>
+        {% endblock %}
+    </div>
+</div>
+
+</body>
+</html>
