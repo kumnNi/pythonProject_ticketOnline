@@ -24,3 +24,7 @@ Das System bietet eine einfache und benutzerfreundliche Oberfläche für die Tic
 - HTML
 - CSS
 
+  
+## 📄 Lizenz
+
+Dieses Projekt dient zu Lern- und Demonstrationszwecken.
